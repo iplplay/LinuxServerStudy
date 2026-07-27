@@ -1,6 +1,43 @@
 # LinuxServerStudy
 
+## Shell Use
+
+### alias
+create short order **in this shell window**
+`alias ll="ls -la"`
+
+To create permanent alias:
+- enter `~/.bashrc`
+- add alias order at last line
+- to apply in current shell, `source ~/.bashrc`
+
+### Pipe and Redirection
+
+### shell file
+
+File that can save shell script orders.
+
+```shelltest.sh
+#!/bin/bash    # what shell?
+
+echo "this is shell test!"
+```
+
+how to run:
+`sh shelltest.sh`
+`bash shelltest.sh`
+
 ## How to use VIM
+
+**Setting VIM**
+- Save at `vim ~/.vimrc`
+- ```~/.vimrc
+  syntax on
+  set tabstop=4
+  set shiftwidth=4
+  set smartindent    # auto indent
+  set cindent
+  ```
 
 **Short cuts:**
 - w: Save Changes
