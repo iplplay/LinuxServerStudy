@@ -13,10 +13,10 @@ To create permanent alias:
 
 ### Pipe and Redirection
 
-**"|"(Pipe)**  
+**"|" (Pipe)**  
 : 왼쪽 명령어의 출력을 오른쪽 명령어의 입력으로 넘겨줌.
 
-**">"/"<"(Redirection)**  
+**">"/"<" (Redirection)**  
 : 명령어의 출력을 파일에 넣어주거나(">") 파일 내용을 명렁어에 입력함("<").
 
 ### shell file
