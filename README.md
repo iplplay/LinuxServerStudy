@@ -31,7 +31,7 @@
 ```vim
 " shelltest.sh
 
-#!/bin/bash    # 사용할 쉘 지정
+#!/bin/bash    " 사용할 쉘 지정
 
 echo "this is shell test!"
 
