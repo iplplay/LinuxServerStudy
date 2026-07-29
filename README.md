@@ -8,9 +8,9 @@
 `alias ll="ls -la"`
 
 영구적인 alias를 생성하려면:  
-* `~/.bashrc` 파일 편집
-* 마지막 줄에 alias 명령어 추가
-* 현재 쉘에 즉시 적용하려면 `source ~/.bashrc` 실행
+- `~/.bashrc` 파일 편집
+- 마지막 줄에 alias 명령어 추가
+- 현재 쉘에 즉시 적용하려면 `source ~/.bashrc` 실행
 
 ### 파이프와 리다이렉션
 
@@ -84,3 +84,165 @@ set cindent
 
 - PowerShell 명령어: `ssh -p [포트] [로그인 ID]@[공유기 IP]`
 - PuTTY 이용 시: IP 주소, 포트 입력
+
+## Python venv 가상환경 설정하기
+
+Python 모듈의 버전 관리를 위해 가상환경을 만들어 사용한다.
+```python
+# 가상환경 만들기
+python -m venv (환경이름)
+
+# 가상환경 적용하기
+source (환경이름)/bin/activate
+```
+
+## Docker를 통해 Influx DB 설치하기
+
+### Docker 설치하기
+
+1. Docker 설치에 필요한 패키지 설치
+
+```bash
+sudo apt install -y \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+```
+
+2. Docker 공식 GPG 키 추가
+
+```bash
+sudo install -m 0755 -d /etc/apt/keyrings
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+```
+
+3. Docker 저장소 추가
+
+```
+sudo install -m 0755 -d /etc/apt/keyrings
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+```
+
+4. Docker Engine 설치
+
+```bash
+sudo apt update
+
+sudo apt install -y \
+docker-ce \
+docker-ce-cli \
+containerd.io \
+docker-buildx-plugin \
+docker-compose-plugin
+```
+
+5. Docker 서비스 시작 및 자동 시작 설정
+
+```bash
+sudo systemctl start docker
+
+sudo systemctl enable docker
+```
+
+### influx DB 설치하기
+
+1. 데이터 저장 디렉터리 생성
+
+```bash
+mkdir -p ~/influxdb/data
+mkdir -p ~/influxdb/config
+cd ~/influxdb
+```
+
+2. 데이터 저장 디렉터리 생성
+
+```vim
+version: "3.8"
+
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    restart: unless-stopped
+
+    ports:
+      - "8086:8086"
+
+    volumes:
+      - ./data:/var/lib/influxdb2
+      - ./config:/etc/influxdb2
+
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: Admin1234!
+      DOCKER_INFLUXDB_INIT_ORG: my-org
+      DOCKER_INFLUXDB_INIT_BUCKET: my-bucket
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: my-super-secret-token
+```
+
+3. 컨테이너 실행
+
+```bash
+docker compose up -d
+```
+
+실행 확인
+
+```bash
+docker ps
+```
+
+4. 웹 UI 접속
+
+브라우저에서 `http://서버IP(또는 localhost):8086`
+
+5. 로그 확인
+
+```bash
+docker logs -f influxdb
+```
+
+6. 컨테이너 관리
+
+중지
+```bash
+docker compose stop
+```
+
+시작
+```bash
+docker compose start
+```
+
+재시작
+```bash
+docker compose restart
+```
+
+삭제(데이터 유지)
+```bash
+docker compose down
+```
+
+삭제(데이터 삭제)
+```bash
+docker compose down -v
+```
+
+- 디렉터리 구조
+```plaintext
+~/influxdb/
+├── docker-compose.yml
+├── data/
+└── config/
+```
