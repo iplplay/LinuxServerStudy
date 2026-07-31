@@ -100,7 +100,7 @@ source (환경이름)/bin/activate
 
 ### Docker 설치하기
 
-1. Docker 설치에 필요한 패키지 설치
+#### 1. Docker 설치에 필요한 패키지 설치
 
 ```bash
 sudo apt install -y \
@@ -110,7 +110,7 @@ sudo apt install -y \
     lsb-release
 ```
 
-2. Docker 공식 GPG 키 추가
+#### 2. Docker 공식 GPG 키 추가
 
 ```bash
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -121,7 +121,7 @@ sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 ```
 
-3. Docker 저장소 추가
+#### 3. Docker 저장소 추가
 
 ```
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -132,7 +132,7 @@ sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 ```
 
-4. Docker Engine 설치
+#### 4. Docker Engine 설치
 
 ```bash
 sudo apt update
@@ -145,7 +145,7 @@ docker-buildx-plugin \
 docker-compose-plugin
 ```
 
-5. Docker 서비스 시작 및 자동 시작 설정
+#### 5. Docker 서비스 시작 및 자동 시작 설정
 
 ```bash
 sudo systemctl start docker
@@ -155,7 +155,7 @@ sudo systemctl enable docker
 
 ### influx DB 설치하기
 
-1. 데이터 저장 디렉터리 생성
+#### 1. 데이터 저장 디렉터리 생성
 
 ```bash
 mkdir -p ~/influxdb/data
@@ -163,7 +163,7 @@ mkdir -p ~/influxdb/config
 cd ~/influxdb
 ```
 
-2. 데이터 저장 디렉터리 생성
+#### 2. 데이터 저장 디렉터리 생성
 
 ```vim
 version: "3.8"
@@ -190,7 +190,7 @@ services:
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: my-super-secret-token
 ```
 
-3. 컨테이너 실행
+#### 3. 컨테이너 실행
 
 ```bash
 docker compose up -d
@@ -202,39 +202,39 @@ docker compose up -d
 docker ps
 ```
 
-4. 웹 UI 접속
+#### 4. 웹 UI 접속
 
 브라우저에서 `http://서버IP(또는 localhost):8086`
 
-5. 로그 확인
+#### 5. 로그 확인
 
 ```bash
 docker logs -f influxdb
 ```
 
-6. 컨테이너 관리
+#### 6. 컨테이너 관리
 
-중지
+- 중지
 ```bash
 docker compose stop
 ```
 
-시작
+- 시작
 ```bash
 docker compose start
 ```
 
-재시작
+- 재시작
 ```bash
 docker compose restart
 ```
 
-삭제(데이터 유지)
+- 삭제(데이터 유지)
 ```bash
 docker compose down
 ```
 
-삭제(데이터 삭제)
+- 삭제(데이터 삭제)
 ```bash
 docker compose down -v
 ```
