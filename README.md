@@ -248,3 +248,65 @@ docker compose down -v
 ├── data/
 └── config/
 ```
+
+## Next Cloud 설정
+
+#### `compose.yml` 구조
+```yaml
+services:                             # 우분투 서비스 등록
+  db:
+    image: mariadb:11.4               # 이미지 버전 설정
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+
+    volumes:
+      - db_data:/var/lib/mysql        # 저장 위치 설정
+
+    environment:
+      MARIADB_ROOT_PASSWORD: 실제 root 비밀번호
+      MARIADB_DATABASE: nextcloud
+      MARIADB_USER: nextcloud
+      MARIADB_PASSWORD: 실제 DB 비밀번호
+
+  nextcloud:
+    image: nextcloud:34-apache
+    restart: unless-stopped
+
+    ports:
+      - "8080:80"                     # 호스트포트:컨테이너포트 (8080으로 접속하면 컨테이너 포트로 전달)
+
+    volumes:
+      - nextcloud_data:/var/www/html
+
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: 실제 DB 비밀번호
+
+      NEXTCLOUD_ADMIN_USER: admin
+      NEXTCLOUD_ADMIN_PASSWORD: 실제 관리자 비밀번호
+
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  nextcloud_data:
+```
+
+- 접속: `http://localhost:8080`
+- 다른 컴퓨터에서: `http://서버IP:8080`
+
+#### Docker compose 실행 방법
+
+1. compose.yml이 있는 폴더로 이동
+2. 컨테이너 실행 `docker compose up -d`  
+```plaintext
+up: 생성 + 실행
+-d: 백그라운드 실행
+```
+3. 실행 상태 확인 `docker compose ps`
+4. 컨테이너 중지 `docker compose down`
+
+> next cloud는 google drive 등보다 자유로운 클라우드 파일 서비스로, webdav 등 파이썬 모듈을 통해 파일을 불러와 활용할 수 있는 자유도가 높다.
