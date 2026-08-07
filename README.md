@@ -320,3 +320,9 @@ up: 생성 + 실행
 
 - 간단하게 웹사이트를 만들 수 있는 오픈소스 서비스다.
 - 여러가지 템플릿이 있으며, html과 css를 통해 꾸밀 수도 있다.
+
+## Telegram Bot
+
+1. Bot father에서 토큰 발급받기
+2. github telegram python bot 내려받기
+3. 파이썬 파일에 토큰 입력하고, 실행하기
